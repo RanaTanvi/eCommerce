@@ -35,7 +35,8 @@ class CartController extends Controller
         if($cartItems->isEmpty()) {
             return view('cart')->withMessage('Your cart is empty');
         }
-        $total = $cartItems->sum('product.price');
+        $total = $this->_cartItemsRepository->total();
+
         return view('cart')->withCartItems($cartItems)->withTotal($total);
      }
 
@@ -43,9 +44,9 @@ class CartController extends Controller
       * Add Product to cart
       *
       * @return \Illuminate\Http\Response
-      */
-      public function addToCArt( Request $request ) 
-      { 
+    */
+    public function addToCArt( Request $request ) 
+    { 
         $cart = $this->_cartItemsRepository->addToCart( $request->all() );
 
         $cartItemsCount = count($this->_cartItemsRepository->getAll());
@@ -55,6 +56,31 @@ class CartController extends Controller
             'message' => 'Product added to cart',
             'cartItemsCount' => $cartItemsCount
         ] );
-      }
+    }
+
+    /**
+     * Remove Product from cart
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     * 
+    */
+    public function removeFromCart($id) {
+       
+        $cart = $this->_cartItemsRepository->removeFromCart($id);
+
+        $cartItems = $this->_cartItemsRepository->getAll();
+      
+        $total = $this->_cartItemsRepository->total();
+        $cartItemsCount = count($cartItems);   
+
+        return response()->json( [
+            'status' => 'success',
+            'message' => 'Product removed from cart',
+            'cartItemsCount' => $cartItemsCount,
+            'total' => $total
+        ] );
+    }
+
+
     
 }

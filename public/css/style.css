@@ -12,16 +12,37 @@ a:hover {
     text-decoration: none;
     color: inherit;
 }
-
+.alert-success {
+    display: none;
+}
 .header {
     padding: 0px 40px;
+    background-color: #ebe9e9;
+    margin-bottom: 20px;
 }
 .header_left {
     float: left;
+    padding: 24px 10px;
 }
 .header_right {
     float: right;
+    padding: 24px 10px;
 }
+
+.header_left ul li {
+    display: inline;
+    padding: 10px;
+  }
+
+  .header_left ul li a{
+    padding: 10px;
+  }
+
+  .active {
+    color: #fff;
+    background-color: #00bcd4;
+  }
+
 #cart-count {
     font-size: 16px;
     color: black;
@@ -37,6 +58,10 @@ a:hover {
 
 .section-products .header {
     margin-bottom: 50px;
+}
+
+.add_to_cart {
+    cursor: pointer;
 }
 
 .section-products .header h3 {

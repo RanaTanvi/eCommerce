@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\CartItem;
+use Illuminate\Support\Facades\Schema;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\OrdersRepository',
             'App\Repositories\OrdersRepositoryEloquent'
         );
+        $this->app->bind(
+            'App\Repositories\OrderItemsRepository',
+            'App\Repositories\OrderItemsRepositoryEloquent'
+        );
     }
 
     /**
@@ -33,8 +39,11 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-        $cartItemsCount = CartItem::count();
-        view()->share('cartItemsCount', $cartItemsCount);
+    {   
+        if(Schema::hasTable('cart_items')) {
+            $cartItemsCount = CartItem::count();
+            view()->share('cartItemsCount', $cartItemsCount);
+        }
+       
     }
 }

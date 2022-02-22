@@ -3,12 +3,28 @@
 namespace App\Repositories;
 
 /**
- * Interface ProductsRepository
+ * Interface OrdersRepository
  */
-interface ProductsRepository {
+interface OrdersRepository {
 
     /**
      * Get all orders
      */
     public function getAll();
+
+    /**
+     * Create order.
+     * @param array $data
+     * 
+     */
+    public function createOrder( array $data );
+
+    /**
+     * Update status of order
+     * 
+     * @param int $id
+     * @param string $status
+     * 
+     */
+    public function updateStatus(  $id, $status );
 }

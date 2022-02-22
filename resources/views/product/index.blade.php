@@ -2,13 +2,12 @@
 @section('content')
 <section class="section-products">
     <div class="container">
-        <div class="row justify-content-center text-center">
-                <div class="col-md-8 col-lg-6">
-                        <div class="header">
-                                <h3>Featured Product</h3>
-                                <h2>Popular Products</h2>
-                        </div>
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                    <div class="page-header">
+                            <h2>Popular Products</h2>
+                    </div>
+            </div>
         </div>
         <div class="row">
             @forelse ($products as $product)
@@ -19,7 +18,6 @@
                         <img src="{{asset('images/'.$product->image)}}" alt="" style="width: 100%;background-repeat:no-repeat">
                         <ul>
                             <li><span class="add_to_cart" data-product-id = {{$product->id}}><i class="fas fa-shopping-cart"></i> <i class="fas fa-spinner fa-spin" style="display: none;"></i> </span></li>
-                            <li><span ><i class="fas fa-plus"></i></span></li>
                         </ul>
                     </div>
                     <div class="part-2">
@@ -44,6 +42,7 @@
 @push('after-scripts')
 <script>
     $('.add_to_cart').on('click', function(e) {
+
         var product_id = $(e.target).parent().attr('data-product-id');
         console.log(product_id);
         if(product_id) {
@@ -52,6 +51,7 @@
             type: 'POST',
             data: {
                 product_id: product_id,
+                quantity: 1,
                 _token: '{{csrf_token()}}'
             },
             beforeSend: function() {
@@ -61,7 +61,8 @@
             success: function(response) {
                 console.log(response);
                 if(response.status == 'success') {
-                    // toastr.success(response.message);
+                    $('.alert-success').html('<strong>Success!</strong>Product added to cart successfully');
+                    $('.alert-success').show();                    
                     $(e.target).show();
                     $(e.target).next().hide();
                 }
@@ -74,5 +75,7 @@
         
 
     });
+
+    
 </script>
 @endpush

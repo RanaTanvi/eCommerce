@@ -36,16 +36,53 @@ use App\Models\CartItem;
          * Add product to cart
          */
         public function addToCart( $data ) 
-        {
-            $cartItem = new CartItem();
+        { 
+            if(!$this->model->where('product_id', $data['product_id'])->exists()) {
+               $cartItem  = $this->model->create($data);
+            } else {
+                $this->model->where('product_id', $data['product_id'])->increment('quantity', $data['quantity']);
+            }
 
-            $cartItem->product_id = 1;
-            // $cartItem->quantity = 1;
-            if($cartItem->save()) {
+                return true;
+           
+        }
+
+        /**
+         * get sum of price of cart items
+        */
+        public function total() {
+            $total = 0;
+            $cartItems = $this->model->get();
+            foreach($cartItems as $cartItem) {
+                $total += $cartItem->product->price * $cartItem->quantity;
+            }
+            return $total;
+        }
+
+        /**
+         * Empty cart
+        */
+        public function emptyCart() {
+            $cartItems = $this->model->get();
+        
+            foreach($cartItems as $cartItem) {
+                $cartItem->delete();
+            }
+            return true;
+        }
+
+        /**
+        * Remove product from cart
+        */
+        public function removeFromCart( $id )
+        {
+            $cartItem = $this->model->find($id);
+            if($cartItem) {
+                $cartItem->delete();
                 return true;
             }
             return false;
         }
-
-
+    
+         
     }  

@@ -16,8 +16,8 @@
         <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
         <link href="{{asset('css/font.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
-        <link href="{{asset('css/media-queries.css')}}" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+        
         <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
         <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
@@ -28,13 +28,38 @@
     <body>
         <div id="app">
             @include('layouts.includes.header')
-                @yield('content')
-        </div><!-- #app -->
+            <div class="alert alert-success fade in">
+                <strong>Success!</strong> Indicates a successful or positive action.
+            </div>
 
+            <div class="container">
+                @yield('content')
+            </div>
+        </div><!-- #app -->
+      
         <!-- Scripts -->
         @stack('before-scripts')
         <script src="{{asset('js/bootstrap.js')}}"></script> 
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ 
+        <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+        <script src="https://unpkg.com/bootoast@1.0.1/dist/bootoast.min.js"></script>
+
+        <script>
+            var url = window.location.href; 
+            $("li a").each(function() {
+                console.log(url);
+                if(url == (this.href)) { 
+                    $(this).addClass("active");
+                }
+            });
+
+            
+            setTimeout(() => {
+                $('.alert-success').hide();   
+            }, 5000);
+            </script>
         @stack('after-scripts')
 
     </body>

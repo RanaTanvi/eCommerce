@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             Schema::create('orders', function (Blueprint $table) {
                 $table->id();
                 $table->string('status')->default('pending');
+                $table->decimal('total')->default(0);
                 $table->timestamps();
                 $table->softDeletes();
             });

@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 /**
- * Interface OrdersRepository
+ * Interface ProductsRepository
  */
-interface OrdersRepository {
+interface ProductsRepository {
 
     /**
      * Get all products

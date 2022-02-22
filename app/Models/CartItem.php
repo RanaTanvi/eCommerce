@@ -11,6 +11,13 @@ class CartItem extends Model
 
     protected $table = 'cart_items';
 
+    protected $fillable = [
+        'product_id',
+        'quantity',
+        'price',
+        'total'
+    ];
+
     public function product()
     {
         return $this->belongsTo('App\Models\Product');

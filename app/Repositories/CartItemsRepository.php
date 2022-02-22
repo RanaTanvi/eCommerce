@@ -15,5 +15,10 @@ interface CartItemsRepository {
     /**
      * Add product to cart
     */
-        public function addToCart( array $data ) ;
+    public function addToCart( array $data ) ;
+
+    /**
+     * Remove product from cart
+     */
+    public function removeFromCart( $id );
 }
