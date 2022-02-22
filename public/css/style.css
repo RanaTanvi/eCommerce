@@ -33,6 +33,10 @@ a:hover {
     display: inline;
     padding: 10px;
   }
+  .header_right ul li {
+    display: inline;
+    padding: 10px;
+  }
 
   .header_left ul li a{
     padding: 10px;
@@ -49,8 +53,8 @@ a:hover {
     padding: 0 5px;
     vertical-align: top;
     position: absolute;
-    right: 39px;
-    bottom: 19px;
+    right: 21px;
+    bottom: 47px;
 }
 .section-products {
     /* padding: 80px 0 54px; */
@@ -153,7 +157,6 @@ a:hover {
 
 .section-products .single-product .part-1 ul li span {
     display: inline-block;
-    width: 40px;
     height: 40px;
     line-height: 40px;
     background-color: #ffffff;
@@ -161,6 +164,8 @@ a:hover {
     text-align: center;
     box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
     transition: color 0.2s;
+    padding: 0px 10px;
+    border-radius: 5px;
 }
 
 .section-products .single-product .part-1 ul li span:hover {
@@ -199,46 +204,10 @@ a:hover {
 .table > tfoot > tr > td {
     vertical-align: middle;
 }
-@media screen and (max-width: 600px) {
-    table#cart tbody td .form-control {
-        width: 20%;
-        display: inline !important;
-    }
-    .actions .btn {
-        width: 36%;
-        margin: 1.5em 0;
-    }
+.btn-sm {
+    width: 100%;
+}
 
-    .actions .btn-info {
-        float: left;
-    }
-    .actions .btn-danger {
-        float: right;
-    }
-
-    table#cart thead {
-        display: none;
-    }
-    table#cart tbody td {
-        display: block;
-        padding: 0.6rem;
-        min-width: 320px;
-    }
-    table#cart tbody tr td:first-child {
-        background: #333;
-        color: #fff;
-    }
-    table#cart tbody td:before {
-        content: attr(data-th);
-        font-weight: bold;
-        display: inline-block;
-        width: 8rem;
-    }
-
-    table#cart tfoot td {
-        display: block;
-    }
-    table#cart tfoot td .btn {
-        display: block;
-    }
+.status_case{
+    text-transform: uppercase;
 }

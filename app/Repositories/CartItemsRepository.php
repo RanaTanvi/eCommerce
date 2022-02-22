@@ -21,4 +21,12 @@ interface CartItemsRepository {
      * Remove product from cart
      */
     public function removeFromCart( $id );
+
+    /**
+     * get total by qunatity of product
+     * 
+     * @param array $qantity
+     * 
+     */
+    public function getTotalByQuantity($quantity);
 }

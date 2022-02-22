@@ -1,5 +1,6 @@
 
 @extends('layouts.app')
+@section('title','Cart')
 @section('content')
 <div class="container">
    
@@ -14,6 +15,7 @@
             </tr>
         </thead>
         @if(isset($cartItems) && $cartItems->isNotEmpty())
+        <form action="{{route('order.create')}}">
         <tbody>
          
             @foreach ($cartItems as $cartItem)
@@ -29,7 +31,7 @@
                 </td>
                 <td data-th="Price">${{$cartItem->product->price}}</td>
                 <td data-th="Quantity">
-                    <input type="number" data-price="{{$cartItem->product->price}}"  min=1 class="form-control text-center quantity_input"   value="{{$cartItem->quantity}}">
+                    <input type="number" data-price="{{$cartItem->product->price}}"  name="Quantity[{{$cartItem->product->price}}]" min=1 class="form-control text-center quantity_input"   value="{{$cartItem->quantity}}">
                 </td>
                 <td data-th="Subtotal" id = "subtotal" data-subtotal="{{$cartItem->product->price * $cartItem->quantity}}" class="text-center">{{$cartItem->product->price * $cartItem->quantity}}</td>
                 <td class="actions" data-th="">
@@ -38,25 +40,28 @@
             </tr>
             @endforeach
         </tbody>
+        
         <tfoot>
             <tr>
-                <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td><a href="{{route('products')}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
                 <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center total" data-th="Total" data-total= "{{$total}}" ><strong>Total ${{$total}}</strong></td>
-                <td><a href="{{route('order.create')}}" class="btn btn-success btn-block">Submit Order <i class="fa fa-angle-right"></i></a></td>
+                <td class="hidden-xs text-center total" data-th="Total" data-total= "{{$total}}" ><strong id="total">Total ${{$total}}</strong></td>
+                <td>
+                    <button type="submit" class="btn btn-success btn-block">
+                        Submit Order <i class="fa fa-angle-right"></i>
+                    </button>
+                </td>
             </tr>
         </tfoot>
+        </form> 
         @else 
-        <tbody>
+        <tbody class="no_item">
             <tr>
                 <td colspan="5" class="text-center">No items in cart 
                     <br/>
                     <a href="{{route('products')}}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
             </tr>
-            <tfoot>
-            
            
-        </tfoot>
         </tbody>
             @endif
 	</table>
@@ -85,7 +90,7 @@ $('.quantity_input').on('change', function(e){
    
 
     $('#cart').find('tfoot').find('td[data-th="Total"]').data('total', total);
-    $('#cart').find('tfoot').find('td[data-th="Total"]').text( total);
+    $('#cart').find('tfoot').find('td[data-th="Total"]').text('$'+ total);
     
 
 
@@ -94,17 +99,24 @@ $('.quantity_input').on('change', function(e){
 $('.removeItem').on('click',function(e){
     e.preventDefault();
     var item_id = $(this).data('id');
-
     $.ajax({
         url: '/cart/remove/'+item_id,
         type: 'GET',
         success: function(response) {
                 console.log(response);
                 if(response.status == 'success') {
-                    $('.total').html('<strong>Total $'+response.total+'</strong>');
+                   
                     $('#item_'+item_id).closest('tr').remove();
                     $('.alert-success').html('<strong>Success!</strong>Product removed from cart successfully');
                     $('.alert-success').show();   
+                    if(response.cartItemsCount == 0) {
+                        $('.btn-block').hide();
+                        $('#total').hide();
+                    } else {
+                        $('.total').html('<strong id="total">Total $'+response.total+'</strong>');
+                        $('.btn-block').show();
+                        $('#total').show();
+                    }
                     
                 }
                 $('#cart-count').text(response.cartItemsCount);

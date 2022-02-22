@@ -48,7 +48,6 @@ class OrderController extends Controller
     public function index() 
     {
         $orders = $this->_ordersRepository->getAll();
-        // dd($orders);
         return view('orders')->withOrders($orders);
     }
 
@@ -61,22 +60,23 @@ class OrderController extends Controller
     public function create( Request $request )
     {
         try{
-            
-        DB::beginTransaction();
-        $total =  $this->_cartItemsRepository->total();
-        $order = $this->_ordersRepository->createOrder(['total' => $total, 'status' => 'pending']);
+            DB::beginTransaction();
+            $total =  $this->_cartItemsRepository->getTotalByQuantity($request->Quantity);
+            $order = $this->_ordersRepository->createOrder(['total' => $total, 'status' => 'pending']);
 
-        if( $order ) {
-            $cartItems = $this->_cartItemsRepository->getAll()->toArray();
-            
-            $oderItems = $this->_orderItemsRepository->createOrderItems($order->id, $cartItems);
+            if( $order ) {
+                $cartItems = $this->_cartItemsRepository->getAll()->toArray();
+                
+                $oderItems = $this->_orderItemsRepository->createOrderItems($order->id, $cartItems, $request->Quantity);
 
-            $cart = $this->_cartItemsRepository->emptyCart();
-            if( $cart ) {
-                Db::commit();
-                return redirect()->route('products')->with('success', 'Order created successfully');
+                $cart = $this->_cartItemsRepository->emptyCart();
+                if( $cart ) {
+                    session()->put('notification', $order);
+
+                    Db::commit();
+                    return redirect()->route('order.list')->with('success', 'Order created successfully');
+                }
             }
-        }
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -98,10 +98,26 @@ class OrderController extends Controller
         try{
             $order = $this->_ordersRepository->updateStatus($id, $request->status);
             if( $order ) {
+                session()->put('notification', $order);
                 return redirect()->back()->with('success', 'Order status updated successfully');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * Show the order details
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function show( $id )
+    {
+        session()->forget('notification') ;
+        $order = $this->_ordersRepository->getById($id);
+        $orderItems = $this->_orderItemsRepository->getByOrderId($id);
+        return view('order-details')->withOrder($order)->withOrderItems($orderItems);
     }
 }

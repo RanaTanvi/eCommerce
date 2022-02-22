@@ -68,4 +68,14 @@ use App\Models\Order;
             }
         }
 
+        /**
+         * Get order by id
+         * 
+         * @param int $id
+         * 
+         */
+        public function getById( $id ) {
+            return $this->model->find($id);
+        }
+
     }  

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Products')
 @section('content')
 <section class="section-products">
     <div class="container">
@@ -17,7 +18,7 @@
                         <span class="new">new</span>
                         <img src="{{asset('images/'.$product->image)}}" alt="" style="width: 100%;background-repeat:no-repeat">
                         <ul>
-                            <li><span class="add_to_cart" data-product-id = {{$product->id}}><i class="fas fa-shopping-cart"></i> <i class="fas fa-spinner fa-spin" style="display: none;"></i> </span></li>
+                            <li class="add_to_cart" data-product-id = {{$product->id}}><span class="" ><i class="fas fa-shopping-cart"></i> <i class="fas fa-spinner fa-spin" style="display: none;"></i>Add To Cart </span></li>
                         </ul>
                     </div>
                     <div class="part-2">
@@ -55,16 +56,18 @@
                 _token: '{{csrf_token()}}'
             },
             beforeSend: function() {
-                $(e.target).hide();
-                $(e.target).next().show();
+                $(e.target).find('.fa-shopping-cart').hide();
+              
+               $(e.target).find('.fa-spinner').show();
             },
             success: function(response) {
                 console.log(response);
                 if(response.status == 'success') {
                     $('.alert-success').html('<strong>Success!</strong>Product added to cart successfully');
                     $('.alert-success').show();                    
-                    $(e.target).show();
-                    $(e.target).next().hide();
+                    $(e.target).find('.fa-shopping-cart').show();
+              
+                $(e.target).find('.fa-spinner').hide();
                 }
                 $('#cart-count').text(response.cartItemsCount);
             }

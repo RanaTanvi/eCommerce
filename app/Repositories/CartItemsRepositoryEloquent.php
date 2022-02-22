@@ -58,6 +58,21 @@ use App\Models\CartItem;
             }
             return $total;
         }
+        
+        /**
+         * get total by qunatity of product
+         * 
+         * @param array $qantity
+         * 
+         */
+        public function getTotalByQuantity($quantity) {
+           
+            $total = 0;
+            foreach($quantity as $key => $value) {
+                $total += $key * $value;
+            }
+            return $total;
+        }
 
         /**
          * Empty cart

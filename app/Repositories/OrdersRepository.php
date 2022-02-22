@@ -27,4 +27,12 @@ interface OrdersRepository {
      * 
      */
     public function updateStatus(  $id, $status );
+
+    /**
+     * Get order by id
+     * 
+     * @param int $id
+     * 
+     */
+    public function getById( $id );
 }
