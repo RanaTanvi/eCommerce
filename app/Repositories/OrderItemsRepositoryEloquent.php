@@ -42,11 +42,14 @@ use App\Models\OrderItem;
             $result = false;
             foreach ($data as $key => $value) {
                 $order_item = new OrderItem();
-                
                 $order_item->order_id = $order_id;
                 $order_item->product_id = $value['product_id'];
-                $order_item->quantity = $quantity[$value['product']['price']];  
-                $order_item->price = $value['product']['price']*$value['quantity'];
+                $order_item->product_name = $value['product_name'];
+                $order_item->product_price = $value['product_price'];
+                $order_item->product_image = $value['product_image'];
+
+                $order_item->quantity = $quantity[$value['product_price']];  
+                $order_item->price = $value['product_price']*$value['quantity'];
 
                 if( $order_item->save() ) {
                     $result = true;
@@ -63,7 +66,7 @@ use App\Models\OrderItem;
          * 
          */
         public function getByOrderId( $order_id ) {
-            return $this->model->where('order_id', $order_id)->with('product')->get();
+            return $this->model->where('order_id', $order_id)->get();
         }
 
     }  

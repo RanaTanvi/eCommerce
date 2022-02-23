@@ -27,9 +27,10 @@
                       
                     
                 </td>
+                
                 <td data-th="Price">${{$order->total}}</td>
                 <td data-th="Products">
-                    <span>{{count($order->products)}}</span>
+                    <span>{{count($order->orderItems)}}</span>
                 </td>
                 <td data-th="status" class="text-center status_case">{{$order->status}}</td>
                 <td class="actions" data-th="">
@@ -38,13 +39,13 @@
                             <form action="{{route('order.update',$order->id)}}" method="POST" name="statusForm">
                                 @csrf
                                 <input type="hidden" name="status" value="processing">
-                                <button type="submit"  data-status="Completed" class="btn btn-primary btn-sm" title="Update status to Processing?">Processing</button>
+                                <button type="submit"  data-status="Processing" class="btn btn-primary btn-sm" title="Update status to Processing?">Processing</button>
                             </form>
                         @elseif($order->status == 'processing')
                             <form action="{{route('order.update',$order->id)}}" method="POST" name="statusForm">
                                 @csrf
                                 <input type="hidden" name="status" value="completed">
-                                <button type="submit" data-status="Cancelled" class="btn btn-success btn-sm" title="Update status to Completed?">Completed</button>
+                                <button type="submit" data-status="Completed" class="btn btn-success btn-sm" title="Update status to Completed?">Completed</button>
                             </form>
                         @elseif($order->status == 'completed')
                             <form action="{{route('order.update',$order->id)}}" method="POST" name="statusForm">

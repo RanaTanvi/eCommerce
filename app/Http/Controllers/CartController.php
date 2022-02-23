@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CartItemsRepository;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 /**
  * Class CartController
@@ -31,11 +32,15 @@ class CartController extends Controller
      */
 
      public function cart() {
+
         $cartItems = $this->_cartItemsRepository->getAll();
+        $client = new Client();
+
         if($cartItems->isEmpty()) {
             return view('cart')->withMessage('Your cart is empty');
         }
-        $total = $this->_cartItemsRepository->total();
+        $total = $cartItems->sum('product_price');
+
 
         return view('cart')->withCartItems($cartItems)->withTotal($total);
      }
@@ -71,6 +76,7 @@ class CartController extends Controller
         $cartItems = $this->_cartItemsRepository->getAll();
       
         $total = $this->_cartItemsRepository->total();
+        
         $cartItemsCount = count($cartItems);   
 
         return response()->json( [

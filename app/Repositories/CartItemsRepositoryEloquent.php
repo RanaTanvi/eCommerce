@@ -29,7 +29,7 @@ use App\Models\CartItem;
          * Get all products
          */
         public function getAll() {
-            return $this->model->with('product')->get();
+            return $this->model->get();
         }
 
         /**
@@ -54,7 +54,7 @@ use App\Models\CartItem;
             $total = 0;
             $cartItems = $this->model->get();
             foreach($cartItems as $cartItem) {
-                $total += $cartItem->product->price * $cartItem->quantity;
+                $total += $cartItem->product_price * $cartItem->quantity;
             }
             return $total;
         }
@@ -90,7 +90,7 @@ use App\Models\CartItem;
         * Remove product from cart
         */
         public function removeFromCart( $id )
-        {
+        { 
             $cartItem = $this->model->find($id);
             if($cartItem) {
                 $cartItem->delete();

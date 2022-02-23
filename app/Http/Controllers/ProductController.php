@@ -2,26 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\ProductsRepository;
 use Illuminate\Http\Request;
-
+use GuzzleHttp\Client;
 /**
  * Class ProductController
  */
 class ProductController extends Controller
 {
     /**
-     * @var ProductRepository
-     */
-    private $_productRepository;
-
-    /**
      * ProductController constructor.
-     * @param ProductRepository $productRepository
      */
-    public function __construct( ProductsRepository $productRepository )
+    public function __construct(  )
     {
-        $this->_productRepository = $productRepository;
     }
     
 
@@ -31,9 +23,18 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */ 
     public function index() 
-    {
-        $products = $this->_productRepository->getAll();
-        return view('product.index')->withProducts($products);
+    {        
+        $client = new Client();
+
+        $response = $client->request('GET', 'https://mangomart-autocount.myboostorder.com/wp-json/wc/v1/products', ['auth' => ['ck_2682b35c4d9a8b6b6effac552e0bffb315a0', 'cs_cab8c9a729dfb49c50ce801a9ea41b577c00ad71']]);
+      
+        $products = json_decode($response->getBody()->getContents());
+        if($products) {
+            return view('product.index')->withProducts($products);
+
+        }
+        return view('product.index')->withProducts([]);
+
     }
   
 }

@@ -17,10 +17,12 @@ class CreateCartItemsTable extends Migration
             Schema::create('cart_items', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('product_id');
-                $table->foreign('product_id')->references('id')->on('products');
                 $table->integer('quantity')->default(1);
+                $table->string('product_name');
+                $table->string('product_price');
+                $table->string('product_image');
+
                 $table->timestamps();
-                $table->softDeletes();
             });
         }
     }

@@ -29,7 +29,7 @@ use App\Models\Order;
          * Get all orders
          */
         public function getAll() {
-            return $this->model->with('products')->get();
+            return $this->model->with('orderItems')->get();
         }
 
         /**
@@ -41,7 +41,8 @@ use App\Models\Order;
             $order = new Order();
 
             $order->total = $data['total'];
-            $order->status = $data['status'];
+            $order->status ='pending';
+         
 
             if( $order->save() ) {
                 return $order;

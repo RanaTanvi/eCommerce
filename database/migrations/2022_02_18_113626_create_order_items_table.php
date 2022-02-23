@@ -19,7 +19,9 @@ class CreateOrderItemsTable extends Migration
                 $table->unsignedBigInteger('order_id');
                 $table->foreign('order_id')->references('id')->on('orders');
                 $table->unsignedBigInteger('product_id');
-                $table->foreign('product_id')->references('id')->on('products');
+                $table->string('product_name');
+                $table->string('product_price');
+                $table->string('product_image');
                 $table->integer('quantity')->default(1);
                 $table->decimal('price');
 

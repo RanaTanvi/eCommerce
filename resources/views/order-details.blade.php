@@ -15,11 +15,10 @@
 
     <div class="card" >
 
-    <img class="card-img-top" src="{{asset('images/'.$orderItem->product->image)}}" style="    width: 200px;
-    height: 200px;"alt="Card image cap">
+   
     <div class="card-body">
-        <h5 class="card-title">{{$orderItem->product->product_name}}</h5>
-        <p class="card-text">{{$orderItem->product->description}}</p>
+        <img class="card-img-top" src="{{$orderItem->product_image}}" style=" width: 200px;height: 200px;"alt="Card image cap">
+        <h5 class="card-title">{{$orderItem->product_name}}</h5>
         <p class="card-text">Quantity {{$orderItem->quantity}}</p>
 
     </div>

@@ -211,3 +211,8 @@ a:hover {
 .status_case{
     text-transform: uppercase;
 }
+
+.loader_row {
+    font-size: 20px;
+    text-align: center;
+}
